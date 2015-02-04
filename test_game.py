@@ -68,6 +68,7 @@ while not done:
 pygame.quit()
 
 
+# NOTE: create a ball class to load paper ball image
 
 
 '''
