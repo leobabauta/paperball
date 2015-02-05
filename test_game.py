@@ -1,5 +1,5 @@
-import math
 import pygame
+
  
 # Define some colors
 BLACK    = (   0,   0,   0)
@@ -8,22 +8,49 @@ GREEN    = (   0, 255,   0)
 RED      = ( 255,   0,   0)
  
 pygame.init()
+
+class Ball(pygame.sprite.Sprite):
+    def __init__(self):
+     
+        # Call the parent class (Sprite) constructor
+        super(Ball, self).__init__()
+     
+        # Load the image
+        self.image = pygame.image.load("paper_1.png").convert()
+     
+        # Set our transparent color
+        self.image.set_colorkey(RED)
+
+        # Fetch the rectangle object that has the dimensions of the image
+        # image.
+        # Update the position of this object by setting the values
+        # of rect.x and rect.y
+        self.rect = self.image.get_rect()
+
  
 # Set the width and height of the screen [width, height]
 size = (800, 450)
 screen = pygame.display.set_mode(size)
 
+
+# Create a Ball object
+paperball = Ball()
+
+
+# Create a list of every sprite.
+all_sprites_list = pygame.sprite.Group()
+
+# Add the ball to the list of sprites
+all_sprites_list.add(paperball)
+
+
 # Load the background image
 background_image = pygame.image.load("cartoony.jpg").convert()
-
-# Load the spaceship, then make the background transparent
-player_image = pygame.image.load("player.png").convert()
-player_image.set_colorkey(BLACK)
 
 # Load the laser sound
 click_sound = pygame.mixer.Sound("laser5.ogg")
 
-pygame.display.set_caption("My Game")
+pygame.display.set_caption("Paperball")
  
 # Loop until the user clicks the close button.
 done = False
@@ -44,19 +71,12 @@ while not done:
  
     # --- Drawing code should go here
  
-    # First, clear the screen to white. Don't put other drawing commands
-    # above this, or they will be erased with this command.
-    screen.fill(WHITE)
+    # Display background
     screen.blit(background_image, [0, 0])
 
-    # Get the current mouse position. This returns the position
-    # as a list of two numbers.
-    player_position = pygame.mouse.get_pos()
-    x = player_position[0]
-    y = player_position[1]
-     
-    # Copy image to screen:
-    screen.blit(player_image, [x, y])
+    # Display ball sprit
+    all_sprites_list.draw(screen)
+
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
@@ -66,23 +86,3 @@ while not done:
  
 # Close the window and quit.
 pygame.quit()
-
-
-# NOTE: create a ball class to load paper ball image
-
-
-'''
-FOR BALL CLASS - to load an image (exaple)
-
-def __init__(self):
-    """ Graphic Sprite Constructor. """
- 
-    # Call the parent class (Sprite) constructor
-    super().__init__()
- 
-    # Load the image
-    self.image = pygame.image.load("player.png").convert()
- 
-    # Set our transparent color
-    self.image.set_colorkey(WHITE)
-'''
