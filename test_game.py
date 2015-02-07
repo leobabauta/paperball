@@ -85,7 +85,7 @@ while not done:
             if event.key == pygame.K_3:
                 paperball.changex += 6
             if event.key == pygame.K_4:
-                paperball.changex += 7
+                paperball.changex += 8
 
 
 
