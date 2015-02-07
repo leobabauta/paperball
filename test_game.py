@@ -16,7 +16,7 @@ class Ball(pygame.sprite.Sprite):
         super(Ball, self).__init__()
      
         # Load the image
-        self.image = pygame.image.load("paper_1.png").convert()
+        self.image = pygame.image.load("paper20.png").convert()
      
         # Set our transparent color
         self.image.set_colorkey(RED)
@@ -25,9 +25,22 @@ class Ball(pygame.sprite.Sprite):
         # image.
         # Update the position of this object by setting the values
         # of rect.x and rect.y
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center=(50,200))
+        self.changex = 0
+        self.changey = 0
+        self.gravity = .025
 
- 
+
+    def update(self):
+        self.rect.x += self.changex
+        if self.changex > 0 and self.changex > self.gravity:
+            self.changex -= self.gravity
+        elif self.changex > 0:
+            self.changex = 0
+
+        self.rect.y += self.changey
+
+
 # Set the width and height of the screen [width, height]
 size = (800, 450)
 screen = pygame.display.set_mode(size)
@@ -64,8 +77,17 @@ while not done:
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             done = True # Flag that we are done so we exit this loop
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            click_sound.play()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                paperball.changex += 2
+            if event.key == pygame.K_2:
+                paperball.changex += 4
+            if event.key == pygame.K_3:
+                paperball.changex += 6
+            if event.key == pygame.K_4:
+                paperball.changex += 7
+
+
 
     # --- Game logic should go here
  
@@ -74,7 +96,10 @@ while not done:
     # Display background
     screen.blit(background_image, [0, 0])
 
-    # Display ball sprit
+    # Call the update() method for all blocks in the block_list
+    all_sprites_list.update()
+
+    # Update & display ball sprite
     all_sprites_list.draw(screen)
 
 
